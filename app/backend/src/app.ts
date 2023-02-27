@@ -1,4 +1,6 @@
 import * as express from 'express';
+import TeamRouter from './api/routers/Team.router';
+import ErrorHandler from './api/middlewares/CatchError';
 
 class App {
   public app: express.Express;
@@ -7,7 +9,7 @@ class App {
     this.app = express();
 
     this.config();
-
+    this.loadRoutes();
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
   }
@@ -22,6 +24,12 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+  }
+
+  private loadRoutes():void {
+    this.app.use('/teams', TeamRouter);
+
+    this.app.use(ErrorHandler.handler);
   }
 
   public start(PORT: string | number):void {
