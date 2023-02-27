@@ -11,3 +11,4 @@ module.exports = {
     await queryInterface.dropTable('trybe_eval');
   },
 };
+// initial commit
