@@ -11,6 +11,11 @@ export interface IUserInfo extends IUserRole {
   email: string;
 }
 
+export interface IUserLogin {
+  email: string,
+  password: string
+}
+
 export default interface IUser extends IUserInfo {
   id: number;
 }
