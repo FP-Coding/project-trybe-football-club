@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
+export type TInProgress = string | undefined;
+
 export interface IMatchScore {
   awayTeamGoals: number,
   homeTeamGoals: number

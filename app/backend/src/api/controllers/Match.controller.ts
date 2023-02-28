@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import IMatchController, { IMatchService } from '../interfaces/Matches/IMatches';
+import BadRequest from '../errors/BadRequest';
+import IMatchController, { IMatchService, TInProgress } from '../interfaces/Matches/IMatches';
 
 class MatchController implements IMatchController {
   private service: IMatchService;
@@ -7,9 +8,16 @@ class MatchController implements IMatchController {
     this.service = service;
   }
 
-  async getAll(_req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+  async getAll(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
     try {
-      const matches = await this.service.getAll();
+      const inProgress = req.query.inProgress as TInProgress;
+      let matches;
+      if (inProgress) {
+        const condition1 = inProgress !== 'true';
+        const condition2 = inProgress !== 'false';
+        if (condition1 && condition2) throw new BadRequest('inProgress must be "true" or "false"');
+        matches = await this.service.getAll(inProgress);
+      } else matches = await this.service.getAll();
       return res.status(200).json(matches);
     } catch (error) {
       next(error);
