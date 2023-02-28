@@ -1,8 +1,8 @@
-import { IMatchScore } from '../../interfaces/Matches/IMatches';
+import { IMatchScore, INewMatch } from '../../interfaces/Matches/IMatches';
 import TokenError from '../../errors/TokenError';
 import { IUserLogin } from '../../interfaces/User/IUser';
 import BadRequest from '../../errors/BadRequest';
-import idSchema, { loginSchema, matchScoreSchema } from './schema';
+import idSchema, { loginSchema, matchScoreSchema, validateNewMatchScore } from './schema';
 
 const validateId = (id: (string | number)) => {
   const { error } = idSchema.validate(id);
@@ -24,6 +24,11 @@ export const validateLoginFields = (userInfoLogin: IUserLogin) => {
 
 export const validateScoreFields = (matchScore: IMatchScore) => {
   const { error } = matchScoreSchema.validate(matchScore);
+  if (error) throw new BadRequest(error.message);
+};
+
+export const validateNewMatchFields = (newMatch: INewMatch) => {
+  const { error } = validateNewMatchScore.validate(newMatch);
   if (error) throw new BadRequest(error.message);
 };
 

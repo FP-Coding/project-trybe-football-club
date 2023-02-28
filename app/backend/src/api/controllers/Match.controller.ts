@@ -50,6 +50,16 @@ class MatchController implements IMatchController {
       next(error);
     }
   }
+
+  async createMatch(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+    try {
+      const newMatchInfo = req.body;
+      const newMatch = await this.service.createMatch(newMatchInfo);
+      return res.status(201).json(newMatch);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default MatchController;

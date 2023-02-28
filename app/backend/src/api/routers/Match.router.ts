@@ -19,6 +19,7 @@ class MatchRouter {
     this.route = Router();
     this.loadRoutesPatch();
     this.loadRoutesGet();
+    this.loadRoutesPost();
   }
 
   private loadRoutesGet() {
@@ -43,6 +44,16 @@ class MatchRouter {
         VerifyToken.verify(req, res, next),
       (req: Request, res: Response, next: NextFunction) =>
         this.controller.finishMatch(req, res, next),
+    );
+  }
+
+  private loadRoutesPost() {
+    this.route.post(
+      '/',
+      (req: Request, res: Response, next: NextFunction) =>
+        VerifyToken.verify(req, res, next),
+      (req: Request, res: Response, next: NextFunction) =>
+        this.controller.createMatch(req, res, next),
     );
   }
 }

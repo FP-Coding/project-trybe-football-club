@@ -1,4 +1,4 @@
-import { ModelStatic } from 'sequelize';
+import { Op, ModelStatic } from 'sequelize';
 import Team from '../../database/models/Team.model';
 import NotFound from '../errors/NotFound';
 import ITeamsService, { ITeam } from '../interfaces/Team/ITeam';
@@ -16,6 +16,19 @@ class TeamService implements ITeamsService {
     const team = await this.model.findByPk(id);
     if (!team) throw new NotFound('Team not found');
     return team;
+  }
+
+  async getAllWithFilter(ids: (number | string)[]): Promise<ITeam[]> {
+    ids.forEach((id) => validateId(id));
+    const teams = await this.model.findAll({
+      where: {
+        id: {
+          [Op.in]: ids,
+        },
+      },
+    });
+    const teamsFormated = teams.map(({ dataValues }) => dataValues);
+    return teamsFormated;
   }
 }
 

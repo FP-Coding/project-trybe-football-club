@@ -5,6 +5,8 @@ const scoreSchema = Joi.number().integer().required();
 
 const idSchema = id.label('Id');
 
+const idTeamHome = id.label('homeTeamId');
+const idAwayTeam = id.label('awayTeamId');
 const scoreTeamHome = scoreSchema.label('homeTeamGoals');
 const scoreAwayHome = scoreSchema.label('awayTeamGoals');
 
@@ -15,6 +17,13 @@ export const loginSchema = Joi.object({
 });
 
 export const matchScoreSchema = Joi.object({
+  homeTeamGoals: scoreTeamHome,
+  awayTeamGoals: scoreAwayHome,
+});
+
+export const validateNewMatchScore = Joi.object({
+  homeTeamId: idTeamHome,
+  awayTeamId: idAwayTeam,
   homeTeamGoals: scoreTeamHome,
   awayTeamGoals: scoreAwayHome,
 });

@@ -1,10 +1,21 @@
 import { ModelStatic } from 'sequelize';
 import Team from '../../database/models/Team.model';
 import Match from '../../database/models/Match.model';
-import { IMatch, IMatchScore, IMatchService, INewMatch } from '../interfaces/Matches/IMatches';
-import validateId, { validateScoreFields } from './validators/validateFields';
+import {
+  IMatch,
+  IMatchLazy,
+  IMatchScore,
+  IMatchService,
+  INewMatch,
+} from '../interfaces/Matches/IMatches';
+import validateId, {
+  validateNewMatchFields,
+  validateScoreFields,
+} from './validators/validateFields';
 import NotFound from '../errors/NotFound';
 import BadRequest from '../errors/BadRequest';
+import TeamService from './Team.service';
+import InvalidValues from '../errors/InvalidValues';
 
 class MatchService implements IMatchService {
   protected model: ModelStatic<Match> = Match;
@@ -56,6 +67,18 @@ class MatchService implements IMatchService {
       throw new BadRequest('Score has no changed, the new value is the same as the current one');
     }
     return { homeTeamGoals, awayTeamGoals };
+  }
+
+  async createMatch(newMatch: INewMatch): Promise<IMatchLazy> {
+    validateNewMatchFields(newMatch);
+    if (newMatch.awayTeamId === newMatch.homeTeamId) {
+      throw new InvalidValues('It is not possible to create a match with two equal teams');
+    }
+    const teams = await new TeamService()
+      .getAllWithFilter([Number(newMatch.awayTeamId), Number(newMatch.homeTeamId)]);
+    if (teams.length !== 2) throw new NotFound('There is no team with such id!');
+    const { dataValues: dataNewMatch } = await this.model.create({ ...newMatch, inProgress: true });
+    return dataNewMatch;
   }
 }
 
