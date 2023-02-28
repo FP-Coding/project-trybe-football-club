@@ -1,7 +1,8 @@
+import { IMatchScore } from '../../interfaces/Matches/IMatches';
 import TokenError from '../../errors/TokenError';
 import { IUserLogin } from '../../interfaces/User/IUser';
 import BadRequest from '../../errors/BadRequest';
-import idSchema, { loginSchema } from './schema';
+import idSchema, { loginSchema, matchScoreSchema } from './schema';
 
 const validateId = (id: (string | number)) => {
   const { error } = idSchema.validate(id);
@@ -19,6 +20,11 @@ export const validateLoginFields = (userInfoLogin: IUserLogin) => {
   if (userInfoLogin.email === '' || userInfoLogin.password === '') {
     throw new BadRequest('All fields must be filled');
   }
+};
+
+export const validateScoreFields = (matchScore: IMatchScore) => {
+  const { error } = matchScoreSchema.validate(matchScore);
+  if (error) throw new BadRequest(error.message);
 };
 
 export default validateId;

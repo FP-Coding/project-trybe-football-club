@@ -30,14 +30,14 @@ export interface IMatchLazy extends INewMatch {
 
 export default interface IMatchController {
   getAll(req: Request, res: Response, next: NextFunction): Promise<void | Response>,
-  // finishMatch(req: Request, res: Response, next: NextFunction): Promise<void | Response>,
-  // changeScore(req: Request, res: Response, next: NextFunction): Promise<void | Response>,
+  finishMatch(req: Request, res: Response, next: NextFunction): Promise<void | Response>,
+  changeScore(req: Request, res: Response, next: NextFunction): Promise<void | Response>,
   // createMatch(req: Request, res: Response, next: NextFunction): Promise<void | Response>
 }
 export interface IMatchService {
   getAll(filter?: string): Promise<IMatch[]>,
-  // finishMatch(id: string | number): Promise<boolean>,
-  // getById(id: string | number): Promise<INewMatch>,
-  // changeScore(id: string | number, newScore: IMatchScore): Promise<IMatchScore>,
+  finishMatch(id: string | number): Promise<boolean>,
+  getById(id: string | number): Promise<INewMatch>,
+  changeScore(id: string | number, newScore: IMatchScore): Promise<IMatchScore>,
   // createMatch(newMatch: INewMatch): Promise<IMatchLazy>,
 }

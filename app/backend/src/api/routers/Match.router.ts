@@ -3,6 +3,7 @@ import {
 } from 'express';
 import MatchController from '../controllers/Match.controller';
 import IMatchController from '../interfaces/Matches/IMatches';
+import VerifyToken from '../middlewares/TokenVerify';
 import MatchService from '../services/Match.service';
 
 const basedService = new MatchService();
@@ -16,13 +17,32 @@ class MatchRouter {
   constructor(controller: IMatchController) {
     this.controller = controller;
     this.route = Router();
-    this.loadRoutes();
+    this.loadRoutesPatch();
+    this.loadRoutesGet();
   }
 
-  private loadRoutes() {
+  private loadRoutesGet() {
     this.route.get(
       '/',
-      (req: Request, res: Response, next: NextFunction) => this.controller.getAll(req, res, next),
+      (req: Request, res: Response, next: NextFunction) =>
+        this.controller.getAll(req, res, next),
+    );
+  }
+
+  private loadRoutesPatch() {
+    this.route.patch(
+      '/:id',
+      (req: Request, res: Response, next: NextFunction) =>
+        VerifyToken.verify(req, res, next),
+      (req: Request, res: Response, next: NextFunction) =>
+        this.controller.changeScore(req, res, next),
+    );
+    this.route.patch(
+      '/:id/finish',
+      (req: Request, res: Response, next: NextFunction) =>
+        VerifyToken.verify(req, res, next),
+      (req: Request, res: Response, next: NextFunction) =>
+        this.controller.finishMatch(req, res, next),
     );
   }
 }
