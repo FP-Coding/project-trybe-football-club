@@ -7,43 +7,17 @@ export const calculateSucessRate = (
   quantityGames: number,
 ): string => ((points / (quantityGames * 3)) * 100).toFixed(2);
 
-export const orderByVictories = (teams: ILeaderboard[]) => {
-  const ordered = teams.sort((
-    { totalVictories: totalVictoriesA }: ILeaderboard,
-    { totalVictories: totalVictoriesB }: ILeaderboard,
-  ) => totalVictoriesB - totalVictoriesA);
-  return [...ordered];
-};
-
-export const orderByGoalsBalance = (teams: ILeaderboard[]) => {
-  const ordered = teams.sort((
-    { goalsBalance: goalsBalanceA }: ILeaderboard,
-    { goalsBalance: goalsBalanceB }: ILeaderboard,
-  ) => goalsBalanceB - goalsBalanceA);
-  return [...ordered];
-};
-
-export const orderByGoalsFavor = (teams: ILeaderboard[]) => {
-  const ordered = teams.sort((
-    { goalsFavor: goalsFavorA }: ILeaderboard,
-    { goalsFavor: goalsFavorB }: ILeaderboard,
-  ) => goalsFavorB - goalsFavorA);
-  return [...ordered];
-};
-
-export const orderByGoalsOwn = (teams: ILeaderboard[]) => {
-  const ordered = teams.sort((
-    { goalsOwn: goalsOwnA }: ILeaderboard,
-    { goalsOwn: goalsOwnB }: ILeaderboard,
-  ) => goalsOwnA - goalsOwnB);
-  return [...ordered];
-};
-
 export const orderLeaderboard = (teams: ILeaderboard[]) => {
-  const orderedByGoalsOwn = orderByGoalsOwn(teams);
-  const orderedByGoalsFavor = orderByGoalsFavor(orderedByGoalsOwn);
-  const orderedByGoalsBalance = orderByGoalsBalance(orderedByGoalsFavor);
-  const orderedByVictories = orderByVictories(orderedByGoalsBalance);
+  const orderedByVictories = teams.sort((infoA: ILeaderboard, infoB: ILeaderboard) => {
+    if (infoA.totalPoints !== infoB.totalPoints) {
+      return infoB.totalPoints - infoA.totalPoints;
+    }
+    if (infoA.goalsBalance !== infoB.goalsBalance) {
+      return infoB.goalsBalance - infoA.goalsBalance;
+    }
+    if (infoA.goalsFavor !== infoB.goalsFavor) { return infoB.goalsFavor - infoA.goalsFavor; }
+    return infoA.goalsOwn - infoB.goalsOwn;
+  });
 
   return orderedByVictories;
 };

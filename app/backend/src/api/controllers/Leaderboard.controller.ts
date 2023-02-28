@@ -17,6 +17,15 @@ class LeaderboardController implements ILeaderboardController {
       next(error);
     }
   }
+
+  async getAllAway(_req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+    try {
+      const teams = await this.service.getAllAway();
+      return res.status(200).json(teams);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default LeaderboardController;

@@ -20,7 +20,11 @@ class LeaderboardRouter {
   }
 
   loadRoutes() {
-    // this.route.get('/away', (req: Request, res: Response, next: NextFunction) => this.controller.getAllAway(req, res, next));
+    this.route.get(
+      '/away',
+      (req: Request, res: Response, next: NextFunction) =>
+        this.controller.getAllAway(req, res, next),
+    );
     this.route.get(
       '/home',
       (req: Request, res: Response, next: NextFunction) =>

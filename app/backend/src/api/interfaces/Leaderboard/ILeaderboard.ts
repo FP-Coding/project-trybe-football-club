@@ -137,15 +137,18 @@ export interface ILeaderboardService {
   getLosses(filter: string): Promise<ILeaderboardLossesHome[] | ILeaderboardLossesAway[]>,
   getDraws(filter: string): Promise<ILeaderboardDrawsHome[] | ILeaderboardDrawsAway[]>,
   getAllHome(): Promise<ILeaderboard[]>,
-  // getAllAway(): Promise<ILeaderboard[]>
+  getAllAway(): Promise<ILeaderboard[]>
 }
 
 export interface ILeaderboardController {
   getAllHome(req: Request, res: Response, next: NextFunction): Promise<Response | void>,
-  // getAllAway(req: Request, res: Response, next: NextFunction): Promise<Response | void>,
+  getAllAway(req: Request, res: Response, next: NextFunction): Promise<Response | void>,
   // getAll(req: Request, res: Response, next: NextFunction): Promise<Response | void>,
 }
 
-export type TVictoryQuant = ILeaderboardVictoriesHome | undefined;
-export type TDrawQuant = ILeaderboardDrawsHome | undefined;
-export type TLossQuant = ILeaderboardLossesHome | undefined;
+export type TVictoryQuantH = ILeaderboardVictoriesHome | undefined;
+export type TDrawQuantH = ILeaderboardDrawsHome | undefined;
+export type TLossQuantH = ILeaderboardLossesHome | undefined;
+export type TVictoryQuantA = ILeaderboardVictoriesAway | undefined;
+export type TDrawQuantA = ILeaderboardDrawsAway | undefined;
+export type TLossQuantA = ILeaderboardLossesAway | undefined;
