@@ -7,6 +7,7 @@ import { app } from '../app';
 
 import { Response } from 'superagent';
 import * as JWT from 'jsonwebtoken';
+import { leaderboardGetAll, leaderboardGetAllAway, leaderboardGetAllHome } from './mocks/Leaderboard.mocks';
 
 
 chai.use(chaiHttp);
@@ -16,32 +17,23 @@ const { expect } = chai;
 describe('Testando rota /leaderboard', () => {
   let chaiHttpResponse: Response;
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Leaderboard, 'findOne')
-  //     .resolves( as User);
-  // });
-
-  // after(()=>{
-  //   (Leaderboard. as sinon.SinonStub).restore();
-  // })
-
   it('Testando rota post /leaderboard/home', async () => {
     chaiHttpResponse = await chai
       .request(app)
       .get('/leaderboard/home');
     
     expect(chaiHttpResponse.status).to.be.equal(200);
-    // expect(chaiHttpResponse.body).to.be.deep.equal()
+    expect(chaiHttpResponse.body).to.be.deep.equal(leaderboardGetAllHome)
+
   });
 
   it('Testando rota post /leaderboard/away', async () => {
     chaiHttpResponse = await chai
       .request(app)
-      .get('/leaderboard/home');
+      .get('/leaderboard/away');
     
     expect(chaiHttpResponse.status).to.be.equal(200);
-    // expect(chaiHttpResponse.body).to.be.deep.equal()
+    expect(chaiHttpResponse.body).to.be.deep.equal(leaderboardGetAllAway)
   });
 
   it('Testando rota post /leaderboard', async () => {
@@ -50,6 +42,6 @@ describe('Testando rota /leaderboard', () => {
       .get('/leaderboard');
     
     expect(chaiHttpResponse.status).to.be.equal(200);
-    // expect(chaiHttpResponse.body).to.be.deep.equal()
+    expect(chaiHttpResponse.body).to.be.deep.equal(leaderboardGetAll);
   });
 });
