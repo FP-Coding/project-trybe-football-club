@@ -12,6 +12,9 @@ export const orderLeaderboard = (teams: ILeaderboard[]) => {
     if (infoA.totalPoints !== infoB.totalPoints) {
       return infoB.totalPoints - infoA.totalPoints;
     }
+    if (infoA.totalVictories !== infoB.totalVictories) {
+      return infoB.totalVictories - infoA.totalVictories;
+    }
     if (infoA.goalsBalance !== infoB.goalsBalance) {
       return infoB.goalsBalance - infoA.goalsBalance;
     }
