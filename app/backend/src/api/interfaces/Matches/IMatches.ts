@@ -41,3 +41,15 @@ export interface IMatchService {
   changeScore(id: string | number, newScore: IMatchScore): Promise<IMatchScore>,
   createMatch(newMatch: INewMatch): Promise<IMatchLazy>,
 }
+
+export interface IResponseMatchGetAll {
+  dataValues: {
+    homeTeam: { dataValues: { teamName: string } }
+    awayTeam: { dataValues: { teamName: string } }
+    homeTeamId: number,
+    homeTeamGoals: number,
+    awayTeamId: number,
+    awayTeamGoals: number,
+    inProgress: boolean,
+  }
+}

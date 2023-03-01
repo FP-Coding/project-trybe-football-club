@@ -13,7 +13,6 @@ import validateId, {
   validateScoreFields,
 } from './validators/validateFields';
 import NotFound from '../errors/NotFound';
-import BadRequest from '../errors/BadRequest';
 import TeamService from './Team.service';
 import InvalidValues from '../errors/InvalidValues';
 
@@ -29,6 +28,7 @@ class MatchService implements IMatchService {
       ],
       where: whereCondition,
     });
+
     const matchesFormated = matches.map(
       ({
         dataValues: {
@@ -61,11 +61,11 @@ class MatchService implements IMatchService {
   ): Promise<IMatchScore> {
     await this.getById(id);
     validateScoreFields({ awayTeamGoals, homeTeamGoals });
-    const [affectedRows] = await this.model
-      .update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
-    if (affectedRows !== 1) {
-      throw new BadRequest('Score has no changed, the new value is the same as the current one');
-    }
+    // const [affectedRows] =
+    await this.model.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    // if (affectedRows !== 1) {
+    //   throw new BadRequest('Score has no changed, the new value is the same as the current one');
+    // }
     return { homeTeamGoals, awayTeamGoals };
   }
 
@@ -77,8 +77,8 @@ class MatchService implements IMatchService {
     const teams = await new TeamService()
       .getAllWithFilter([Number(newMatch.awayTeamId), Number(newMatch.homeTeamId)]);
     if (teams.length !== 2) throw new NotFound('There is no team with such id!');
-    const { dataValues: dataNewMatch } = await this.model.create({ ...newMatch, inProgress: true });
-    return dataNewMatch;
+    const dataNewMatch = await this.model.create({ ...newMatch, inProgress: true });
+    return dataNewMatch.dataValues;
   }
 }
 
