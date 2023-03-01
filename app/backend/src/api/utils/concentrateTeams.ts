@@ -30,8 +30,6 @@ const concentrateTeams = (teamsHome: ILeaderboard[], teamsAway: ILeaderboard[]):
     if (teamsNames.includes(team.name)) {
       const teamAway = teamsAway.find((t) => t.name === team.name);
       if (!teamAway) throw new NotFound('Team not found');
-      console.log(team);
-      console.log(teamAway);
       const teamUpdated = updateTeam(team, teamAway);
       teams.push({ name: team.name, ...teamUpdated });
     } else {
