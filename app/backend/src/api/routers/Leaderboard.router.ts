@@ -30,7 +30,8 @@ class LeaderboardRouter {
       (req: Request, res: Response, next: NextFunction) =>
         this.controller.getAllHome(req, res, next),
     );
-    // this.route.get('/', (req: Request, res: Response, next: NextFunction) => this.controller.getAll(req, res, next));
+    this.route.get('/', (req: Request, res: Response, next: NextFunction) =>
+      this.controller.getAll(req, res, next));
   }
 }
 

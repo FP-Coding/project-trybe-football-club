@@ -19,6 +19,7 @@ import ILeaderboard, {
   TVictoryQuantA,
   TVictoryQuantH,
 } from '../interfaces/Leaderboard/ILeaderboard';
+import concentrateTeams from '../utils/concentrateTeams';
 import calculatePoints,
 { calculateSucessRate, orderLeaderboard } from '../utils/manipulateLeaderBoard';
 import objectControlSequelize,
@@ -27,7 +28,6 @@ import objectControlSequelize,
   normalizeSequelizeResponseAwayLosses,
   normalizeSequelizeResponseAwayVictories,
   normalizeSequelizeResponseGetAllAway,
-  // normalizeSequelizeResponseGetAllAway,
   normalizeSequelizeResponseGetAllHome,
   normalizeSequelizeResponseHomeDraws,
   normalizeSequelizeResponseHomeLosses,
@@ -222,6 +222,14 @@ class LeaderBoardService implements ILeaderboardService {
     const ordered = orderLeaderboard(leaderboard);
 
     return ordered;
+  }
+
+  async getAll(): Promise<ILeaderboard[]> {
+    const teamsHome = await this.getAllHome();
+    const teamsAway = await this.getAllAway();
+
+    const allTeams = concentrateTeams(teamsHome, teamsAway);
+    return orderLeaderboard(allTeams);
   }
 }
 

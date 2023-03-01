@@ -137,13 +137,14 @@ export interface ILeaderboardService {
   getLosses(filter: string): Promise<ILeaderboardLossesHome[] | ILeaderboardLossesAway[]>,
   getDraws(filter: string): Promise<ILeaderboardDrawsHome[] | ILeaderboardDrawsAway[]>,
   getAllHome(): Promise<ILeaderboard[]>,
-  getAllAway(): Promise<ILeaderboard[]>
+  getAllAway(): Promise<ILeaderboard[]>,
+  getAll(): Promise<ILeaderboard[]>,
 }
 
 export interface ILeaderboardController {
   getAllHome(req: Request, res: Response, next: NextFunction): Promise<Response | void>,
   getAllAway(req: Request, res: Response, next: NextFunction): Promise<Response | void>,
-  // getAll(req: Request, res: Response, next: NextFunction): Promise<Response | void>,
+  getAll(req: Request, res: Response, next: NextFunction): Promise<Response | void>,
 }
 
 export type TVictoryQuantH = ILeaderboardVictoriesHome | undefined;
